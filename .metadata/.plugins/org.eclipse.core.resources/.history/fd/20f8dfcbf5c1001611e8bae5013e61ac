@@ -1,0 +1,15 @@
+package com.baseball;
+
+import java.util.Random;
+
+public class strike {
+	public static void main(String[] args){
+		int[] attackNumber = new int[3];
+		
+		Random numbers = new Random();
+		int attackNumber = numbers.nextInt(10);
+		
+		
+	}
+
+}

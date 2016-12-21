@@ -1,0 +1,136 @@
+package com.baseball;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class Baseball {
+	
+	public static void main(String[] args){
+
+		int[] defenseNumber = computer();
+		Scanner scanner = new Scanner(System.in);
+	
+		while(true){
+			System.out.println("공격! 0-9까지의 숫자 중 3개를 맞춰봐요!");
+			String attackLine = scanner.nextLine();
+			System.out.println(attackLine);
+			String[] attackNumberStr = attackLine.split(",| ");
+			 //attackNumber 형 변환
+			int[] attackNumber = new int[3];
+			int ball = 0;
+			int strike = 0;
+			int count = ball + strike;
+			
+			for(int i = 0; i < attackNumberStr.length; i++){
+				attackNumber[i] = Integer.parseInt(attackNumberStr[i]);	
+			}
+			
+			if(isBall(attackNumber, defenseNumber)){
+				ball += 1;
+				System.out.println("현재 ball 수: " + ball);
+				continue;
+			}
+			
+			if(isStrike(attackNumber, defenseNumber)){
+				strike += 1; 
+				System.out.println("현재 strike 수: " + strike);
+				continue;
+			}
+			
+			if(isOut(attackNumber, defenseNumber)){
+				System.out.println("게임 종료 - 컴터 승");
+				break;
+			}
+			
+			if(isWin(attackNumber, defenseNumber)){
+				System.out.println("게임 종료!" + count + "만에 맞춤. 짝짝짝");
+				break;
+				
+			}
+		}
+	}
+	
+	static int[] computer(){
+		List<Integer> random = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+		Collections.shuffle(random);
+		//System.out.println(random);
+		
+		int[] computerNumber = new int[3];
+		for(int i=0; i<3; i++){
+			computerNumber[i] = random.get(i);
+			//System.out.println(computerNumber[i]);
+		}
+		return computerNumber;
+	}
+	
+	static boolean isStrike(int[] attackNumber, int[] defenseNumber){
+		//타자가 이야기한 숫자가 포함되어 있으며 위치도 같음
+		boolean result = false;
+		
+		for(int i=0; i < 3; i++){
+		if(attackNumber[i] == defenseNumber[i]){
+			System.out.println("스뚜~~~라잌!");
+			result = true;
+			}
+		}
+		return result;
+	}
+	
+	static boolean isBall(int[] attackNumber, int[] defenseNumber){
+		boolean result = false;
+		//타자가 이야기한 숫자가 포함은 되어 있으나 위치가 다름
+		int i = 0; 
+		int j = 0; 
+		
+		while( i < attackNumber.length){
+			int num = attackNumber[i];
+			
+			while( j < defenseNumber.length){
+				int defenseNum = defenseNumber[j];
+			if((num == defenseNum) && (i != j)){
+				System.out.println("볼이에요 볼");
+				result = true;
+			}
+		}
+	 } return result;
+	}
+	
+	static boolean isOut(int[] attackNumber, int[] defenseNumber){
+		boolean result = false; 
+		
+		int i = 0;
+		int j = 0;
+		
+		while( i < attackNumber.length){
+			int num = attackNumber[i];
+			while(j < defenseNumber.length){
+				if((num != defenseNumber[j]) && (i != j)){
+					System.out.println("OUT!");
+					result = true;
+				}
+			}
+		}
+		return result;
+	}
+	
+	static boolean isWin(int[] attackNumber, int[] defenseNumber){
+		boolean result = false; 
+		
+		int i = 0; 
+		int j = 0; 
+		
+		while(i < attackNumber.length){
+			int num = attackNumber[i];
+			while(j < defenseNumber.length){
+				if((num == defenseNumber[j] && (i == j))){
+					System.out.println("YOU WIN!");
+					result = true;
+				}
+			}
+		}
+		
+		return result;
+	}
+}
