@@ -12,6 +12,9 @@ public class Baseball {
 		System.out.println(Arrays.toString(defenseNumber));
 		Scanner scanner = new Scanner(System.in);
 	
+			
+		while(true){
+			
 			System.out.println("공격! 0-9까지의 숫자 중 3개를 맞춰봐요!");
 			String attackLine = scanner.nextLine();
 			//System.out.println(attackLine);
@@ -24,30 +27,16 @@ public class Baseball {
 				//System.out.print(attackNumber[i]);
 			}
 			
-			int ball = 0;
-			int strike = 0;
-			int count = ball + strike;
+			int strike = Strike(attackNumber, defenseNumber);
+			int ball = Ball(attackNumber, defenseNumber); 
+			int total = strike + ball;
 			
-			if(isBall(attackNumber, defenseNumber) == true){
-			ball += 1;
-			System.out.println("볼 개수: " +ball);
-			}
 			
-			if(isStrike(attackNumber, defenseNumber ) == true){
-				strike += 1;
-				System.out.println("스트라이크 개수 : " + strike);
-			}
-			
-			if(isOut(attackNumber, defenseNumber) == true){
-				System.out.println("게임 끗!아웃!");
-			}
-			
-			if(isWin(attackNumber, defenseNumber) == true){
-				System.out.println("오~ 이겼음" +count+ "만에 맞춤!");
-			}
-		
-			
-		
+			if(strike == 3){
+				System.out.println("정답!" + total + "번 만에 승!");
+				break;
+			} 
+		} 
 	}
 	
 	public static int[] computer(){
@@ -63,78 +52,37 @@ public class Baseball {
 		return computerNumber;
 	}
 	
-	static boolean isStrike(int[] attackNumber, int[] defenseNumber){
-		//타자가 이야기한 숫자가 포함되어 있으며 위치도 같음
-		boolean result = false;
+	static int Strike(int[] attackNumber, int[] defenseNumber){
 		
-		System.out.println(attackNumber[0]);
+		int strike = 0;
 		
-		for(int i=0; i < 3; i++){
-			int num = attackNumber[i];
-			
-			for(int j = 0; j < defenseNumber.length; j ++){
-				int defenseNum = defenseNumber[j];
-				if((num == defenseNum)){
-					System.out.println("스뚜~~~라잌!");
-					result = true;
-				}
-			}
-				
-		}
-		return result;
-	}
-	
-	static boolean isBall(int[] attackNumber, int[] defenseNumber){
-		boolean result = false;
-		//타자가 이야기한 숫자가 포함은 되어 있으나 위치가 다름 
-		
-		for(int i = 0;i < attackNumber.length; i++){
-			int num = attackNumber[i];
-			
+		for(int i = 0; i < attackNumber.length; i++){
+			int attackNum = attackNumber[i];
 			for(int j = 0; j < defenseNumber.length; j++){
 				int defenseNum = defenseNumber[j];
-				if((num == defenseNum) && (i != j)){
-				System.out.println("볼이에요");	
-				result = true;
+				if((attackNum == defenseNum) && (i == j)){
+					strike += 1;
+					
+				} 
 			}
-		}
-	 } return result;
+		} System.out.println("스트라이크 개수:" + strike);
+		
+		return strike;
 	}
 	
-	static boolean isOut(int[] attackNumber, int[] defenseNumber){
-		boolean result = false; 
+	static int Ball(int[] attackNumber, int[] defenseNumber){
 		
-		int i = 0;
-		int j = 0;
+		int ball = 0; 
 		
-		while( i < attackNumber.length){
-			int num = attackNumber[i];
-			while(j < defenseNumber.length){
-				if((num != defenseNumber[j]) && (i != j)){
-					System.out.println("OUT!");
-					result = true;
-				}	
-			}
-		}
-		return result;
-	}
-	
-	static boolean isWin(int[] attackNumber, int[] defenseNumber){
-		boolean result = false; 
-		
-		int i = 0; 
-		int j = 0; 
-		
-		while(i < attackNumber.length){
-			int num = attackNumber[i];
-			while(j < defenseNumber.length){
-				if((num == defenseNumber[j] && (i == j))){
-					System.out.println("YOU WIN!");
-					result = true;
+		for(int i = 0; i < attackNumber.length; i++){
+			int attackNum = attackNumber[i];
+			for(int j = 0; j < defenseNumber.length; j++){
+				int defenseNum = defenseNumber[j];
+				if((attackNum == defenseNum) && (i != j)){
+					ball += 1;
 				}
-			}
-		}
-		
-		return result;
+			} 
+		} System.out.println("볼 개수: " + ball);
+		return ball;
 	}
-}
+} 

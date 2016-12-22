@@ -8,13 +8,13 @@ import org.junit.Test;
 public class BaseballTest {
 
 	@Test
-	public void isBall() {
+	public void Ball() {
 		int[] attackNumber = {1,2,3};
 		int[] defenseNumber = {3,1,7};
 		System.out.println("------");
-		boolean result = Baseball.isBall(attackNumber, defenseNumber);
+		int result = Baseball.Ball(attackNumber, defenseNumber);
 		System.out.println("------2");
-		assertEquals(true, result);
+		assertEquals(2, result);
 	}
 
 }

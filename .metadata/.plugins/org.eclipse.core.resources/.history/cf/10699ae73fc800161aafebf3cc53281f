@@ -1,0 +1,88 @@
+package com.baseball;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class Baseball {
+	
+	public static void main(String[] args){
+		int[] defenseNumber = computer();
+		System.out.println(Arrays.toString(defenseNumber));
+		Scanner scanner = new Scanner(System.in);
+	
+			
+		while(true){
+			
+			System.out.println("공격! 0-9까지의 숫자 중 3개를 맞춰봐요!");
+			String attackLine = scanner.nextLine();
+			//System.out.println(attackLine);
+			String[] attackNumberStr = attackLine.split(",| ");
+			
+			int[] attackNumber = new int[3];
+			
+			for(int i = 0; i < attackNumberStr.length; i++){
+				attackNumber[i] = Integer.parseInt(attackNumberStr[i]);	
+				//System.out.print(attackNumber[i]);
+			}
+			
+			int strike = Strike(attackNumber, defenseNumber);
+			int ball = Ball(attackNumber, defenseNumber); 
+			int total = strike + ball;
+			
+			
+			if(strike == 3){
+				System.out.println("정답!" + total + "번 만에 승!");
+				break;
+			} 
+		} 
+	}
+	
+	public static int[] computer(){
+		List<Integer> random = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+		Collections.shuffle(random);
+		//System.out.println(random);
+		
+		int[] computerNumber = new int[3];
+		for(int i=0; i<3; i++){
+			computerNumber[i] = random.get(i);
+			//System.out.println(computerNumber[i]);
+		}
+		return computerNumber;
+	}
+	
+	static int Strike(int[] attackNumber, int[] defenseNumber){
+		
+		int strike = 0;
+		
+		for(int i = 0; i < attackNumber.length; i++){
+			int attackNum = attackNumber[i];
+			for(int j = 0; j < defenseNumber.length; j++){
+				int defenseNum = defenseNumber[j];
+				if((attackNum == defenseNum) && (i == j)){
+					strike += 1;
+					System.out.println("스트라이크 개수:" + strike);
+				}
+			}
+		}
+		
+		return strike;
+	}
+	
+	static int Ball(int[] attackNumber, int[] defenseNumber){
+		
+		int ball = 0; 
+		
+		for(int i = 0; i < attackNumber.length; i++){
+			int attackNum = attackNumber[i];
+			for(int j = 0; j < defenseNumber.length; j++){
+				int defenseNum = defenseNumber[j];
+				if((attackNum == defenseNum) && (i != j)){
+					ball += 1;
+				}
+			}
+		}
+		return ball;
+	}
+} 
